@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "node-fetch": "^2.3.0",
     "prettier": "^1.16.4",
     "prop-types": "^15.7.2",
+    "query-string": "latest",
     "ra-data-json-server": "^2.8.3",
     "react": "^16.8.5",
     "react-admin": "^2.8.3",
