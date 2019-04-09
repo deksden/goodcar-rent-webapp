@@ -26,13 +26,14 @@ export default (type, params) => {
   }
   // called when the user clicks on the logout button
   if (type === AUTH_LOGOUT) {
-    return fetch(`${API_URL}/auth/logout`, options)
-      .then(response => {
-        if (response.status < 200 || response.status >= 300) {
-          throw new Error(response.statusText)
-        }
-        window.localStorage.removeItem('token')
-      })
+    // return fetch(`${API_URL}/auth/logout`, options)
+    //   .then(response => {
+    //     if (response.status < 200 || response.status >= 300) {
+    //       throw new Error(response.statusText)
+    //     }
+    window.localStorage.removeItem('token')
+    return Promise.resolve()
+    // })
   }
   // called when the API returns an error
   if (type === AUTH_ERROR) {
