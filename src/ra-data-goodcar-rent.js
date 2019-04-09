@@ -19,6 +19,13 @@ const API_URL = 'http://localhost:3005'
  * @returns {Object} { url, options } The HTTP request parameters
  */
 const convertDataProviderRequestToHTTP = (type, resource, params) => {
+  const token = window.localStorage.getItem('token')
+  const options = { method: 'GET' }
+
+  if (token) {
+    options.headers = new Headers( {'Authorization': `Bearer ${token}` })
+  }
+
   switch (type) {
     case GET_LIST: {
       const { page, perPage } = params.pagination
@@ -28,15 +35,15 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
         range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
         filter: JSON.stringify(params.filter)
       }
-      return { url: `${API_URL}/${resource}?${stringify(query)}` }
+      return { url: `${API_URL}/${resource}?${stringify(query)}`, options }
     }
     case GET_ONE:
-      return { url: `${API_URL}/${resource}/${params.id}` }
+      return { url: `${API_URL}/${resource}/${params.id}`, options }
     case GET_MANY: {
       const query = {
         filter: JSON.stringify({ id: params.ids })
       }
-      return { url: `${API_URL}/${resource}?${stringify(query)}` }
+      return { url: `${API_URL}/${resource}?${stringify(query)}`, options }
     }
     case GET_MANY_REFERENCE: {
       const { page, perPage } = params.pagination
@@ -46,23 +53,19 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
         range: JSON.stringify([(page - 1) * perPage, (page * perPage) - 1]),
         filter: JSON.stringify({ ...params.filter, [params.target]: params.id })
       }
-      return { url: `${API_URL}/${resource}?${stringify(query)}` }
+      return { url: `${API_URL}/${resource}?${stringify(query)}`, options }
     }
     case UPDATE:
-      return {
-        url: `${API_URL}/${resource}/${params.id}`,
-        options: { method: 'PUT', body: JSON.stringify(params.data) }
-      }
+      options.method = 'PUT'
+      options.body = JSON.stringify(params.data)
+      return { url: `${API_URL}/${resource}/${params.id}`, options }
     case CREATE:
-      return {
-        url: `${API_URL}/${resource}`,
-        options: { method: 'POST', body: JSON.stringify(params.data) }
-      }
+      options.method = 'PUT'
+      options.body = JSON.stringify(params.data)
+      return { url: `${API_URL}/${resource}`, options }
     case DELETE:
-      return {
-        url: `${API_URL}/${resource}/${params.id}`,
-        options: { method: 'DELETE' }
-      }
+      options.method = 'DELETE'
+      return { url: `${API_URL}/${resource}/${params.id}`, options }
     default:
       throw new Error(`Unsupported fetch action type ${type}`)
   }
@@ -76,12 +79,21 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
  * @returns {Object} Data Provider response
  */
 const convertHTTPResponseToDataProvider = (response, type, resource, params) => {
+  console.log(type)
+  console.log(resource)
+  console.log(params)
   const { headers, json } = response
+  console.log(response)
+  console.log(response.headers.get('content-range'))
   switch (type) {
     case GET_LIST:
+      let cnt = 0
+      if (headers && headers.get('content-range') && headers.get('content-range').split('/').pop()) {
+        cnt = parseInt(headers.get('content-range').split('/').pop(), 10)
+      }
       return {
         data: json.map(x => x),
-        total: parseInt(headers.get('content-range').split('/').pop(), 10)
+        total: cnt
       }
     case CREATE:
       return { data: { ...params.data, id: json.id } }
