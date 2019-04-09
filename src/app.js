@@ -1,5 +1,5 @@
 import React from 'react'
-import { Admin, Resource } from 'react-admin'
+import { Admin, Resource, Login } from 'react-admin'
 import dataProvider from './ra-data-goodcar-rent'
 import { UserList } from './users'
 // import { PostCreate, PostEdit, PostList } from './posts'
@@ -10,8 +10,10 @@ import authProvider from './auth-provider'
 
 /* <Resource name='posts' list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon} /> */
 
+const MyLoginPage = () => <Login backgroundImage='https://loremflickr.com/1024/768/city,car' />
+
 const App = () => (
-  <Admin dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider}>
+  <Admin dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider} loginPage={MyLoginPage}>
     <Resource name='users' list={UserList} icon={UserIcon} />
   </Admin>
 )
