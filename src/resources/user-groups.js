@@ -1,7 +1,6 @@
 import React from 'react'
 import { List, Datagrid, TextField, ReferenceArrayField, SelectField,
-  SingleFieldList, ChipField, DisabledInput, ReferenceInput, SelectInput, TextInput, LongTextInput,
-  Create, Filter } from 'react-admin'
+  SingleFieldList, ChipField } from 'react-admin'
 
 const systemTypeNone = null
 const systemTypeAdmin = 'Admin'
@@ -15,6 +14,8 @@ const choices = [
   { id: systemTypeLoggedIn, name: '(Logged-in users)' }
 ]
 
+/*
+
 const UserGroupTitle = ({ record }) => {
   return <span>Post {record ? `"${record.title}"` : ''}</span>
 }
@@ -27,9 +28,10 @@ const UserGroupFilter = (props) => (
     </ReferenceInput>
   </Filter>
 )
+*/
 
 export const UserGroupList = props => (
-  <List {...props} filters={<UserGroupFilter />}>
+  <List {...props} /* filters={<UserGroupFilter />} */ >
     <Datagrid>
       <TextField source='id' label='Id' />
       <TextField source='name' label='Name' />

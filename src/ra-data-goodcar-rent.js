@@ -79,12 +79,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
  * @returns {Object} Data Provider response
  */
 const convertHTTPResponseToDataProvider = (response, type, resource, params) => {
-  console.log(type)
-  console.log(resource)
-  console.log(params)
   const { headers, json } = response
-  console.log(response)
-  console.log(response.headers.get('content-range'))
   switch (type) {
     case GET_LIST:
       let cnt = 0
