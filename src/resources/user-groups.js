@@ -1,6 +1,8 @@
 import React from 'react'
 import { List, Datagrid, TextField, ReferenceArrayField, SelectField,
-  SingleFieldList, ChipField } from 'react-admin'
+  SingleFieldList, ChipField, Edit, Create, SimpleForm, DisabledInput,
+  SelectInput, ReferenceArrayInput, SelectArrayInput, TextInput,
+  EditButton } from 'react-admin'
 
 const systemTypeNone = null
 const systemTypeAdmin = 'Admin'
@@ -41,6 +43,36 @@ export const UserGroupList = props => (
           <ChipField source='name' />
         </SingleFieldList>
       </ReferenceArrayField>
+      <EditButton />>
     </Datagrid>
   </List>
+)
+
+const UserGroupTitle = ({ record }) => {
+  return <span>User Group {record ? `"${record.name}"` : ''}</span>
+}
+
+export const UserGroupEdit = props => (
+  <Edit title={<UserGroupTitle />} {...props}>
+    <SimpleForm>
+      <DisabledInput source='id' />
+      <TextInput source='name' />
+      <SelectInput source='systemType' choices={choices} translateChoice={false} />
+      <ReferenceArrayInput source='users' label='Users' reference='users'>
+        <SelectArrayInput source='name' />
+      </ReferenceArrayInput>
+    </SimpleForm>
+  </Edit>
+)
+
+export const UserGroupCreate = props => (
+  <Create {...props}>
+    <SimpleForm>
+      <TextInput source='name' />
+      <SelectInput source='systemType' choices={choices} translateChoice={false} />
+      <ReferenceArrayInput source='users' label='Users' reference='users'>
+        <SelectArrayInput source='name' />
+      </ReferenceArrayInput>
+    </SimpleForm>
+  </Create>
 )

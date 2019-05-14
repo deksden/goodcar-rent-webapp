@@ -60,7 +60,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
       options.body = JSON.stringify(params.data)
       return { url: `${API_URL}/${resource}/${params.id}`, options }
     case CREATE:
-      options.method = 'PUT'
+      options.method = 'POST'
       options.body = JSON.stringify(params.data)
       return { url: `${API_URL}/${resource}`, options }
     case DELETE:
