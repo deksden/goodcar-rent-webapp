@@ -1,3 +1,4 @@
+/* global Headers */
 import {
   GET_LIST,
   GET_ONE,
@@ -23,7 +24,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
   const options = { method: 'GET' }
 
   if (token) {
-    options.headers = new Headers( {'Authorization': `Bearer ${token}` })
+    options.headers = new Headers({ 'Authorization': `Bearer ${token}` })
   }
 
   switch (type) {
