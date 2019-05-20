@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Datagrid, TextField, EmailField, BooleanField,
+import { List, Datagrid, TextField, EmailField, BooleanField, DateField,
   Edit, Create, SimpleForm, DisabledInput, TextInput, BooleanInput } from 'react-admin'
 
 export const InviteList = props => (
@@ -7,6 +7,7 @@ export const InviteList = props => (
     <Datagrid rowClick='edit'>
       <TextField source='id' />
       <EmailField source='email' />
+      <DateField source='expireAt' />
       <BooleanField source='disabled' />
     </Datagrid>
   </List>

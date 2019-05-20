@@ -6,6 +6,7 @@ import {
   CREATE,
   UPDATE,
   DELETE,
+  DELETE_MANY,
   fetchUtils
 } from 'react-admin'
 import { stringify } from 'query-string'
@@ -66,6 +67,13 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     case DELETE:
       options.method = 'DELETE'
       return { url: `${API_URL}/${resource}/${params.id}`, options }
+    case DELETE_MANY:
+      options.method = 'DELETE'
+      const query = {
+        filter: JSON.stringify({ ...params.filter, ids: params.ids })
+      }
+      return { url: `${API_URL}/${resource}?${stringify(query)}`, options }
+
     default:
       throw new Error(`Unsupported fetch action type ${type}`)
   }
